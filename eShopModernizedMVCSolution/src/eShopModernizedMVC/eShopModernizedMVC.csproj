@@ -502,6 +502,7 @@
     <Compile Include="Models\Infrastructure\CatalogDBInitializer.cs" />
     <Compile Include="Models\CatalogItemHiLoGenerator.cs" />
     <Compile Include="Controllers\CatalogController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -648,6 +649,7 @@
     <Content Include="Views\Catalog\Edit.cshtml" />
     <Content Include="Views\Catalog\Index.cshtml" />
     <Content Include="Views\Catalog\CatalogTable.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Setup\CatalogBrands.csv" />
     <Content Include="Setup\CatalogItems.csv" />
     <Content Include="Setup\CatalogTypes.csv" />
