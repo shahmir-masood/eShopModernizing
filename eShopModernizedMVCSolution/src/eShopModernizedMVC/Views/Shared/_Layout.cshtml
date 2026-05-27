@@ -13,6 +13,10 @@
             <a href="@Url.Action("index", "catalog")">
                 <img src="~/images/brand.png" />
             </a>
+            <nav class="esh-header-nav">
+                <a class="esh-header-nav-link" href="@Url.Action("Index", "Catalog")">Catalog</a>
+                <a class="esh-header-nav-link" href="@Url.Action("About", "Home")">About</a>
+            </nav>
             @if (CatalogConfiguration.UseAzureActiveDirectory)
             {
                 @Html.Partial("_LoginPartial")
