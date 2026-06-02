@@ -1,6 +1,7 @@
-﻿using Microsoft.Azure.Services.AppAuthentication;
-using System.Configuration;
+using System;
 using System.Data.SqlClient;
+using Azure.Core;
+using Azure.Identity;
 
 namespace eShopModernizedMVC
 {
@@ -11,11 +12,12 @@ namespace eShopModernizedMVC
 
     public class ManagedIdentitySqlConnectionFactory : ISqlConnectionFactory
     {
-        private readonly AzureServiceTokenProvider _provider;
+        private static readonly string[] Scopes = { "https://database.windows.net/.default" };
+        private readonly DefaultAzureCredential _credential;
 
         public ManagedIdentitySqlConnectionFactory()
         {
-            _provider = new AzureServiceTokenProvider();
+            _credential = new DefaultAzureCredential();
         }
 
         public SqlConnection CreateConnection()
@@ -23,12 +25,18 @@ namespace eShopModernizedMVC
             return new SqlConnection
             {
                 AccessToken = AccessToken,
-                ConnectionString = ConfigurationManager.ConnectionStrings["CatalogDBContext"].ConnectionString
+                ConnectionString = CatalogConfiguration.CatalogConnectionString
             };
         }
 
         private string AccessToken
-            => _provider.GetAccessTokenAsync("https://database.windows.net/").ConfigureAwait(false).GetAwaiter().GetResult();
+        {
+            get
+            {
+                var token = _credential.GetToken(new TokenRequestContext(Scopes));
+                return token.Token;
+            }
+        }
     }
 
     public class AppSettingsSqlConnectionFactory : ISqlConnectionFactory
@@ -37,7 +45,7 @@ namespace eShopModernizedMVC
         {
             return new SqlConnection
             {
-                ConnectionString = ConfigurationManager.ConnectionStrings["CatalogDBContext"].ConnectionString
+                ConnectionString = CatalogConfiguration.CatalogConnectionString
             };
         }
     }
