@@ -4,8 +4,10 @@ services:
   eshop.modernized.webforms:
     image: eshop/modernizedwebforms
     build:
-      context: .\src\eShopModernizedWebForms
+      context: ./src/eShopModernizedWebForms
       dockerfile: Dockerfile
+    depends_on:
+      - sql.data
 
   sql.data:
-    image: microsoft/mssql-server-windows-developer
+    image: mcr.microsoft.com/mssql/server:2022-latest

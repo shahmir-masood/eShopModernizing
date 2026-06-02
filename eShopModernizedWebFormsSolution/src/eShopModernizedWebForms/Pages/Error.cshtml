@@ -1,0 +1,14 @@
+@page
+@model eShopModernizedWebForms.Pages.ErrorModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="container">
+    <h2 class="esh-body-title">Error</h2>
+    <p>An error occurred while processing your request.</p>
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <p class="text-danger">@Model.Message</p>
+    }
+</div>

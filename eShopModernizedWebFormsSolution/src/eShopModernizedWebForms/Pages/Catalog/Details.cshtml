@@ -1,0 +1,42 @@
+@page "{id:int}"
+@model eShopModernizedWebForms.Pages.Catalog.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+    var product = Model.Product;
+}
+
+<h2 class="esh-body-title">Details</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img class="col-md-8 esh-picture" src="@Model.PictureUri" />
+        </div>
+        <dl class="col-md-4 dl-horizontal">
+            <dt>Name</dt>
+            <dd>@product.Name</dd>
+            <dt>Description</dt>
+            <dd>@product.Description</dd>
+            <dt>Brand</dt>
+            <dd>@product.CatalogBrand?.Brand</dd>
+            <dt>Type</dt>
+            <dd>@product.CatalogType?.Type</dd>
+            <dt>Price</dt>
+            <dd><span class="esh-price">@product.Price</span></dd>
+        </dl>
+        <dl class="col-md-4 dl-horizontal">
+            <dt>Picture name</dt>
+            <dd>@product.PictureFileName</dd>
+            <dt>Stock</dt>
+            <dd>@product.AvailableStock</dd>
+            <dt>Restock</dt>
+            <dd>@product.RestockThreshold</dd>
+            <dt>Max stock</dt>
+            <dd>@product.MaxStockThreshold</dd>
+            <dd class="esh-button-actions">
+                <a href="~/" class="btn esh-button esh-button-secondary">[ Back to list ]</a>
+                <a asp-page="/Catalog/Edit" asp-route-id="@product.Id" class="btn esh-button esh-button-primary">[ Edit ]</a>
+            </dd>
+        </dl>
+    </div>
+</div>
