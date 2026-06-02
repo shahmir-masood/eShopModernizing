@@ -6,7 +6,7 @@
            "value": "eshop/wcfservice:latest"
        },
        "groupname": {
-           "value": "wcf-standalone-windows-eshop-container-group"
+           "value": "wcf-standalone-linux-eshop-container-group"
        },
        "constr": {
         "value": "NOT NEEDED DUE MOCK DATA"

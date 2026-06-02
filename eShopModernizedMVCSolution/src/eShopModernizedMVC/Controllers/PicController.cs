@@ -1,12 +1,11 @@
-﻿using eShopModernizedMVC.Services;
+using eShopModernizedMVC.Services;
 using log4net;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
 
 namespace eShopModernizedMVC.Controllers
 {
@@ -24,15 +23,15 @@ namespace eShopModernizedMVC.Controllers
 
         [HttpPost]
         [Route("uploadimage")]
-        public ActionResult UploadImage()
+        public IActionResult UploadImage()
         {
             _log.Info($"Now processing... /Pic/UploadImage");
-            HttpPostedFile image = System.Web.HttpContext.Current.Request.Files["HelpSectionImages"];
-            var itemId = System.Web.HttpContext.Current.Request.Form["itemId"];
+            IFormFile image = Request.Form.Files["HelpSectionImages"];
+            var itemId = Request.Form["itemId"].ToString();
 
             if (!IsValidImage(image))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "image is not valid");
+                return BadRequest("image is not valid");
             }
 
             int.TryParse(itemId, out var catalogItemId);
@@ -46,12 +45,18 @@ namespace eShopModernizedMVC.Controllers
             return Json(tempImage);
         }
 
-        private bool IsValidImage(HttpPostedFile file)
+        private bool IsValidImage(IFormFile file)
         {
+            if (file == null)
+            {
+                return false;
+            }
+
             bool isValidImage = true;
             try
             {
-                using (var img = Image.FromStream(file.InputStream))
+                using (var stream = file.OpenReadStream())
+                using (var img = Image.FromStream(stream))
                 {
                     isValidImage = ValidFormats.Contains(img.RawFormat);
                 }
@@ -63,6 +68,5 @@ namespace eShopModernizedMVC.Controllers
 
             return isValidImage;
         }
-
     }
 }

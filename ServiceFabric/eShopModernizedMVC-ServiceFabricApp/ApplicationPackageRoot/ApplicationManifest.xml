@@ -32,7 +32,7 @@
     </EnvironmentOverrides>
     <Policies>
       <ContainerHostPolicies CodePackageRef="Code">
-        <PortBinding ContainerPort="80" EndpointRef="MVC_ContainerTypeEndpoint"/>
+        <PortBinding ContainerPort="8080" EndpointRef="MVC_ContainerTypeEndpoint"/>
       </ContainerHostPolicies>
     </Policies>
   </ServiceManifestImport>

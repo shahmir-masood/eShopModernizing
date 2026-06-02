@@ -10,14 +10,14 @@ spec:
     spec:
       containers:
       - name: sql-data
-        image: microsoft/mssql-server-windows-developer
+        image: mcr.microsoft.com/mssql/server:2022-latest
         env:
         - name: ACCEPT_EULA
           value: "Y"
         - name: SA_PASSWORD
           value: Pass@word
       nodeSelector:
-       beta.kubernetes.io/os: windows
+       beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service

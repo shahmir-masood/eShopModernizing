@@ -6,7 +6,7 @@ services:
     environment:
       - ConnectionString=Server=sql.data;Database=eShopDatabase;User Id=sa;Password=Pass@word
     ports:
-     - "5113:80"
+     - "5113:8080"
 
   sql.data:
     environment:
@@ -18,8 +18,3 @@ services:
       test: [ "CMD", "sqlcmd", "-U", "sa", "-P", "Pass@word", "-Q", "select 1" ]
       interval: 1s
       retries: 20
-
-networks:
-  default:
-    external:
-      name: nat

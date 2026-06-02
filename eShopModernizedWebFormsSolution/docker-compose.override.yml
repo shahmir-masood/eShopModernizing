@@ -3,7 +3,8 @@ version: '3.4'
 services:
   eshop.modernized.webforms:
     environment:
-      - ConnectionString=Server=sql.data;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__CatalogDBContext=Server=sql.data;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word;TrustServerCertificate=True
       - UseMockData=True
       - UseCustomizationData=False
       - UseAzureStorage=False
@@ -12,7 +13,7 @@ services:
       - UseAzureActiveDirectory=false
       - AzureActiveDirectoryClientId=${AZURE_ACTIVE_DIRECTORY_CLIENT_ID}
       - AzureActiveDirectoryTenant=${AZURE_ACTIVE_DIRECTORY_TENANT}
-      - PostLogoutRedirectUri=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP:-10.0.75.1}:5114/
+      - PostLogoutRedirectUri=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP:-localhost}:5114/
     ports:
       - "5114:80"
 
@@ -22,12 +23,3 @@ services:
       - ACCEPT_EULA=Y
     ports:
       - "5433:1433"
-    healthcheck:
-      test: [ "CMD", "sqlcmd", "-U", "sa", "-P", "Pass@word", "-Q", "select 1" ]
-      interval: 1s
-      retries: 20
-
-networks:
-  default:
-    external:
-      name: nat

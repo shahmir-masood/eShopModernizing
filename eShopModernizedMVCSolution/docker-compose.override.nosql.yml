@@ -1,9 +1,10 @@
-version: '3'
+version: '3.4'
 
 services:
   eshop.modernized.mvc:
     environment:
-      - ConnectionString=Server=sql.data;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__CatalogDBContext=Server=sql.data;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word;TrustServerCertificate=True
       - UseMockData=False
       - UseCustomizationData=False
       - UseAzureStorage=False
@@ -12,11 +13,6 @@ services:
       - UseAzureActiveDirectory=false
       - AzureActiveDirectoryClientId=${AZURE_ACTIVE_DIRECTORY_CLIENT_ID}
       - AzureActiveDirectoryTenant=${AZURE_ACTIVE_DIRECTORY_TENANT}
-      - PostLogoutRedirectUri=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP:-10.0.75.1}:5115/
+      - PostLogoutRedirectUri=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP:-localhost}:5115/
     ports:
-      - "5115:80"
-
-networks:
-  default:
-    external:
-      name: nat
+      - "5115:8080"

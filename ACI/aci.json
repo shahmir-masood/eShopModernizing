@@ -35,7 +35,8 @@
                 [
                   { "name": "UseMockData", "value":"[parameters('usemock')]" },
                   { "name": "ConnectionString", "value":"[parameters('constr')]"},
-                  { "name": "UseAzureActiveDirectory", "value": "false"}
+                  { "name": "UseAzureActiveDirectory", "value": "false"},
+                  { "name": "ASPNETCORE_HTTP_PORTS", "value": "80"}
                 ],
                 "resources": {
                   "requests": {
@@ -51,7 +52,7 @@
               }
             }
           ],
-          "osType": "Windows",
+          "osType": "Linux",
           "ipAddress": {
             "type": "Public",
             "ports": [

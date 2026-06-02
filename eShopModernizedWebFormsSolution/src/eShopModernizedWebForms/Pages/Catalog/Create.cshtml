@@ -1,0 +1,106 @@
+@page
+@model eShopModernizedWebForms.Pages.Catalog.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2 class="esh-body-title">Create</h2>
+<div class="container">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <img class="esh-picture" src="@Model.PictureUri" />
+                </div>
+
+                @if (Model.ShowUpload)
+                {
+                    <div id="UploadButton" class="row">
+                        <div class="col-md-6">
+                            <label class="btn btn-default esh-button-upload">
+                                Upload image
+                                <input type="file" id="uploadEditorImage" accept="image/*" class="hidden" />
+                            </label>
+                            <input type="hidden" asp-for="Input.TempImageName" id="TempImageName" />
+                        </div>
+                        <div class="esh-loader col-md-3 hidden"></div>
+                        <div class="col-md-6">
+                            <span class="text-danger field-validation-error" id="img-validation-error"></span>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-8 form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-2">Name</label>
+                    <div class="col-md-8">
+                        <input asp-for="Input.Name" class="form-control" />
+                        <span asp-validation-for="Input.Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Description</label>
+                    <div class="col-md-8">
+                        <input asp-for="Input.Description" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Brand</label>
+                    <div class="col-md-8">
+                        <select asp-for="Input.CatalogBrandId" asp-items="Model.Brands" class="form-control"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Type</label>
+                    <div class="col-md-8">
+                        <select asp-for="Input.CatalogTypeId" asp-items="Model.Types" class="form-control"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Price</label>
+                    <div class="col-md-8">
+                        <input asp-for="Input.Price" class="form-control" value="0.00" />
+                        <span asp-validation-for="Input.Price" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Stock</label>
+                    <div class="col-md-8">
+                        <input asp-for="Input.AvailableStock" class="form-control" value="0" />
+                        <span asp-validation-for="Input.AvailableStock" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Restock</label>
+                    <div class="col-md-8">
+                        <input asp-for="Input.RestockThreshold" class="form-control" value="0" />
+                        <span asp-validation-for="Input.RestockThreshold" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Max stock</label>
+                    <div class="col-md-8">
+                        <input asp-for="Input.MaxStockThreshold" class="form-control" value="0" />
+                        <span asp-validation-for="Input.MaxStockThreshold" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-8 text-right esh-button-actions">
+                        <a href="~/" class="btn esh-button esh-button-secondary">[ Cancel ]</a>
+                        <button type="submit" class="btn esh-button esh-button-primary">[ Create ]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

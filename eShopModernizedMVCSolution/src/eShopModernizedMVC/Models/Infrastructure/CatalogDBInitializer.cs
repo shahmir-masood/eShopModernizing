@@ -6,7 +6,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web.Hosting;
 
 namespace eShopModernizedMVC.Models.Infrastructure
 {
@@ -14,9 +13,9 @@ namespace eShopModernizedMVC.Models.Infrastructure
     {
         private const string DBCatalogSequenceName = "catalog_type_hilo";
         private const string DBBrandSequenceName = "catalog_brand_hilo";
-        private const string CatalogItemHiLoSequenceScript = @"Models\Infrastructure\dbo.catalog_hilo.Sequence.sql";
-        private const string CatalogBrandHiLoSequenceScript = @"Models\Infrastructure\dbo.catalog_brand_hilo.Sequence.sql";
-        private const string CatalogTypeHiLoSequenceScript = @"Models\Infrastructure\dbo.catalog_type_hilo.Sequence.sql";
+        private static readonly string CatalogItemHiLoSequenceScript = Path.Combine("Models", "Infrastructure", "dbo.catalog_hilo.Sequence.sql");
+        private static readonly string CatalogBrandHiLoSequenceScript = Path.Combine("Models", "Infrastructure", "dbo.catalog_brand_hilo.Sequence.sql");
+        private static readonly string CatalogTypeHiLoSequenceScript = Path.Combine("Models", "Infrastructure", "dbo.catalog_type_hilo.Sequence.sql");
 
         private CatalogItemHiLoGenerator indexGenerator;
         private bool useCustomizationData;
@@ -92,7 +91,7 @@ namespace eShopModernizedMVC.Models.Infrastructure
 
         private IEnumerable<CatalogType> GetCatalogTypesFromFile()
         {
-            var contentRootPath = HostingEnvironment.ApplicationPhysicalPath;
+            var contentRootPath = HostingConfiguration.ContentRootPath;
             string csvFileCatalogTypes = Path.Combine(contentRootPath, "Setup", "CatalogTypes.csv");
 
             if (!File.Exists(csvFileCatalogTypes))
@@ -128,7 +127,7 @@ namespace eShopModernizedMVC.Models.Infrastructure
 
         static IEnumerable<CatalogBrand> GetCatalogBrandsFromFile()
         {
-            var contentRootPath = HostingEnvironment.ApplicationPhysicalPath;
+            var contentRootPath = HostingConfiguration.ContentRootPath;
             string csvFileCatalogBrands = Path.Combine(contentRootPath, "Setup", "CatalogBrands.csv");
 
             if (!File.Exists(csvFileCatalogBrands))
@@ -164,7 +163,7 @@ namespace eShopModernizedMVC.Models.Infrastructure
 
         static IEnumerable<CatalogItem> GetCatalogItemsFromFile(CatalogDBContext context)
         {
-            var contentRootPath = HostingEnvironment.ApplicationPhysicalPath;
+            var contentRootPath = HostingConfiguration.ContentRootPath;
             string csvFileCatalogItems = Path.Combine(contentRootPath, "Setup", "CatalogItems.csv");
 
             if (!File.Exists(csvFileCatalogItems))
@@ -340,7 +339,7 @@ namespace eShopModernizedMVC.Models.Infrastructure
             {
                 return;
             }
-            var contentRootPath = HostingEnvironment.ApplicationPhysicalPath;
+            var contentRootPath = HostingConfiguration.WebRootPath;
             DirectoryInfo picturePath = new DirectoryInfo(Path.Combine(contentRootPath, "Pics"));
             foreach (FileInfo file in picturePath.GetFiles())
             {

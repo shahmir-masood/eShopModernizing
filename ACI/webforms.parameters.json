@@ -6,7 +6,7 @@
            "value": "eshop/modernizedwebforms:latest"
        },
        "groupname": {
-           "value": "webforms-standalone-windows-eshop-container-group"
+           "value": "webforms-standalone-linux-eshop-container-group"
        },
        "constr": {
            "value": "NOT NEEDED DUE MOCK DATA"
