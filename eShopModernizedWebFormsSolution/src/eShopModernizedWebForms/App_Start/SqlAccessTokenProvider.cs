@@ -1,6 +1,6 @@
-﻿using Microsoft.Azure.Services.AppAuthentication;
-using System.Configuration;
 using System.Data.SqlClient;
+using Azure.Core;
+using Azure.Identity;
 
 namespace eShopModernizedWebForms
 {
@@ -9,13 +9,18 @@ namespace eShopModernizedWebForms
         SqlConnection CreateConnection();
     }
 
+    /// <summary>
+    /// Obtains an Azure AD access token for SQL using the modern Azure.Identity
+    /// SDK (replaces the deprecated Microsoft.Azure.Services.AppAuthentication).
+    /// </summary>
     public class ManagedIdentitySqlConnectionFactory : ISqlConnectionFactory
     {
-        private readonly AzureServiceTokenProvider _provider;
+        private static readonly string[] Scopes = { "https://database.windows.net/.default" };
+        private readonly DefaultAzureCredential _credential;
 
         public ManagedIdentitySqlConnectionFactory()
         {
-            _provider = new AzureServiceTokenProvider();
+            _credential = new DefaultAzureCredential();
         }
 
         public SqlConnection CreateConnection()
@@ -23,12 +28,12 @@ namespace eShopModernizedWebForms
             return new SqlConnection
             {
                 AccessToken = AccessToken,
-                ConnectionString = ConfigurationManager.ConnectionStrings["CatalogDBContext"].ConnectionString
+                ConnectionString = CatalogConfiguration.CatalogConnectionString
             };
         }
 
         private string AccessToken
-            => _provider.GetAccessTokenAsync("https://database.windows.net/").ConfigureAwait(false).GetAwaiter().GetResult();
+            => _credential.GetToken(new TokenRequestContext(Scopes)).Token;
     }
 
     public class AppSettingsSqlConnectionFactory : ISqlConnectionFactory
@@ -37,7 +42,7 @@ namespace eShopModernizedWebForms
         {
             return new SqlConnection
             {
-                ConnectionString = ConfigurationManager.ConnectionStrings["CatalogDBContext"].ConnectionString
+                ConnectionString = CatalogConfiguration.CatalogConnectionString
             };
         }
     }

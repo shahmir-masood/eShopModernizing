@@ -1,0 +1,67 @@
+@{
+    var userName = User?.Identity?.IsAuthenticated == true ? User.Identity.Name : null;
+    var useAad = CatalogConfiguration.UseAzureActiveDirectory;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Catalog manager (Web Forms)</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/base.css" rel="stylesheet" />
+    <link href="~/Content/site.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body>
+    <header class="navbar navbar-light navbar-static-top">
+        <div class="esh-header-brand">
+            <a href="~/">
+                <img src="~/images/brand.png" />
+            </a>
+            @if (useAad)
+            {
+                <ul class="nav navbar-nav navbar-right">
+                    @if (userName != null)
+                    {
+                        <li class="navbar-text">Hello, @userName !</li>
+                        <li><a class="esh-login-link" href="~/Account/SignOut">Sign out</a></li>
+                    }
+                    else
+                    {
+                        <li><a class="esh-login-link" href="~/Account/SignIn">Sign in</a></li>
+                    }
+                </ul>
+            }
+        </div>
+    </header>
+
+    <section class="esh-app-hero">
+        <div class="container esh-header">
+            <h1 class="esh-header-title">Catalog Manager <span>(WebForms)</span></h1>
+        </div>
+    </section>
+
+    <div>
+        @RenderBody()
+    </div>
+
+    <footer class="esh-app-footer">
+        <div class="container">
+            <article class="row">
+                <section class="col-sm-6">
+                    <img class="esh-app-footer-brand" src="~/images/brand_dark.png" />
+                </section>
+                <section class="col-sm-6">
+                    <img class="esh-app-footer-text hidden-xs" src="~/images/main_footer_text.png" width="335" height="26" alt="footer text image" />
+                </section>
+            </article>
+        </div>
+    </footer>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,47 @@
+@page "{id:int}"
+@model eShopModernizedWebForms.Pages.Catalog.DeleteModel
+@{
+    ViewData["Title"] = "Delete";
+    var product = Model.ProductToDelete;
+}
+
+<h2 class="esh-body-title">Delete</h2>
+
+<div class="container">
+    <h3>Are you sure you want to delete this?</h3>
+    <div class="row">
+        <div class="col-md-4">
+            <img class="col-md-8 esh-picture" src="@Model.PictureUri" />
+        </div>
+        <dl class="col-md-4 dl-horizontal">
+            <dt>Name</dt>
+            <dd>@product.Name</dd>
+            <dt>Description</dt>
+            <dd>@product.Description</dd>
+            <dt>Brand</dt>
+            <dd>@product.CatalogBrand?.Brand</dd>
+            <dt>Type</dt>
+            <dd>@product.CatalogType?.Type</dd>
+            <dt>Price</dt>
+            <dd><span class="esh-price">@product.Price</span></dd>
+        </dl>
+        <dl class="col-md-4 dl-horizontal">
+            <dt>Picture name</dt>
+            <dd>@product.PictureFileName</dd>
+            <dt>Stock</dt>
+            <dd>@product.AvailableStock</dd>
+            <dt>Restock</dt>
+            <dd>@product.RestockThreshold</dd>
+            <dt>Max stock</dt>
+            <dd>@product.MaxStockThreshold</dd>
+            <dt></dt>
+            <dd class="esh-button-actions">
+                <form method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <a href="~/" class="btn esh-button esh-button-secondary">[ Cancel ]</a>
+                    <button type="submit" class="btn esh-button esh-button-primary">[ Delete ]</button>
+                </form>
+            </dd>
+        </dl>
+    </div>
+</div>
