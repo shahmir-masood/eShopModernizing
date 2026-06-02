@@ -11,6 +11,10 @@ namespace eShopLegacyWebForms.Models
         {
         }
 
+        public CatalogDBContext(string nameOrConnectionString) : base(nameOrConnectionString)
+        {
+        }
+
         public DbSet<CatalogItem> CatalogItems { get; set; }
 
         public DbSet<CatalogBrand> CatalogBrands { get; set; }
