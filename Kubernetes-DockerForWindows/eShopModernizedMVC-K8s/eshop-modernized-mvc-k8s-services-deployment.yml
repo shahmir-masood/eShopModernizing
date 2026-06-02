@@ -16,9 +16,9 @@ spec:
     spec:
       containers:
       - name: eshop-modernized-mvc
-        image: eshop/modernizedmvc:4.7.1
+        image: eshop/modernizedmvc
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         imagePullPolicy: Always
         env:
         - name: ConnectionString
@@ -42,7 +42,7 @@ spec:
         - name: PostLogoutRedirectUri
           value: ""
       nodeSelector:
-       beta.kubernetes.io/os: windows
+       beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -54,6 +54,6 @@ spec:
   type: LoadBalancer
   ports:
   - port: 5115
-    targetPort: 80
+    targetPort: 8080
   selector:
     app: eshop-modernized-mvc

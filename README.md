@@ -1,13 +1,13 @@
 
-# eShopModernizing - Modernizing ASP.NET Web apps (MVC and WebForms) and N-Tier apps (WCF + WinForms) with Windows Containers and Azure
+# eShopModernizing - Modernizing ASP.NET Web apps (MVC and WebForms) and N-Tier apps (WCF + WinForms) on .NET 8 with Linux Containers and Azure
 
-This repo provides three sample hypothetical legacy eShop web apps (traditional ASP.NET WebForms and MVC in .NET Framework and an N-Tier app based on a WCF service and a client WinForms desktop app) and how you can modernize them (Lift and Shift scenario) with Windows Containers and Azure Cloud into the following deployment options:
+This repo provides three sample hypothetical eShop web apps (ASP.NET MVC and WebForms, plus an N-Tier app based on a WCF service and a client WinForms desktop app), now upgraded to **.NET 8**. The ASP.NET MVC apps run on **ASP.NET Core MVC 8**, the WebForms apps were rewritten as **ASP.NET Core Razor Pages**, the WCF service runs on **CoreWCF**, and the WinForms client targets **net8.0-windows**. You can deploy them with **Linux containers** and Azure Cloud into the following deployment options:
 
-- Local build and deployment in dev PC with Visual Studio and Docker for Windows
+- Local build and deployment with the .NET 8 SDK and Docker
 - Azure Container Instances (ACI)
-- Regular Windows Server 2016 VM (Virtual Machine)
+- Virtual Machine (Linux or Windows with Docker)
 - AKS Kubernetes orchestrator cluster
-- Azure Web App for Containers (Windows Containers)
+- Azure Web App for Containers (Linux Containers)
 
 All those mentioned environments can be deployed into Azure cloud (as explained in the Wiki) but you can also deploy all those environments into on-premises servers or even in other public clouds.
 
@@ -18,7 +18,7 @@ You can download its related guidance with this free guide/eBook (2nd Edition):
 
 .PDF download: https://aka.ms/liftandshiftwithcontainersebook
 
-The modernization with Windows Containers significantly improves the deployments for DevOps, without having to change the app's architecture or C# code.
+The upgrade to .NET 8 and Linux containers significantly improves the deployments for DevOps and lets the apps run cross-platform.
 
 The sample apps are simple web apps for the internal backoffice of an eShop so employees can update the Product Catalog. 
 Both apps are therefore simple CRUD web application to update data into a SQL Server database. 
@@ -55,18 +55,18 @@ The winforms application is a catalog management, and uses a WCF as a back-end. 
 ### DEPLOYMENT TO AZURE WEB APP FOR CONTAINERS
 ![image](https://docs.microsoft.com/en-us/dotnet/architecture/modernize-with-azure-containers/media/image5-11.png)
 
-## Quick start: Running all apps together in your local Windows 10 PC with "Docker for Windows"
+## Quick start: Running all apps together locally with Docker
 
-You have more detailed procedures at the [Wiki](https://github.com/dotnet-architecture/eShopModernizing/wiki), but for the quickest way to get started and run all samples together using Docker for Windows, open a **"Developer Command Prompt for VS 2017 (or 2019)"** (to ensure you have right `msbuild` on `PATH`), go to the eShopModernizing root folder and run the `build.cmd` script.
+The quickest way to get started is to install the **.NET 8 SDK** (8.0.400 or later; the repo pins it via `global.json`) and Docker, go to the eShopModernizing root folder, and run the `build.cmd` script.
 
-**Note: The current version uses netcoreapp3.0. You will need to instll the preview SDK and set Visual Studio to 'Use previews of the .NET Core SDK (under Options - Projects and Solutions - .NET Core).**
+**Prerequisites:** [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) and Docker. The build now uses the `dotnet` CLI (`dotnet restore`/`dotnet publish`) instead of `nuget.exe` + `msbuild`.
 
 This script will:
 
 * Build MVC project
 * Build Webforms project
 * Build WCF back-end project
-* Create three Docker images (Windows Container images):
+* Create three Docker images (Linux Container images, multi-stage .NET 8 builds):
    * `eshop/modernizedwebforms`
    * `eshop/modernizedmvc`
    * `eshop/wcfservice`
@@ -79,13 +79,13 @@ Finally just run `docker-compose up` (in the root of the repo) to start all thre
 
 * MVC web app listens in: 
      - Port 5115 on the Docker Host (PC) network card IP
-     - Port 80 on the internal container's IP
+     - Port 8080 on the internal container's IP
 * Webforms web app listens in:  
      - Port 5114 on the Docker Host (PC) network card IP
      - Port 80 on the internal container's IP
 * WCF service listens in port: 
      - Port 5113 on the Docker Host (PC) network card IP
-     - Port 80 on the internal container's IP
+     - Port 8080 on the internal container's IP
 
 >**Note** You should be able to use `http://localhost:<port>` to access the desired application. 
 
@@ -113,6 +113,6 @@ Wiki: https://github.com/dotnet-architecture/eShopModernizing/wiki
 
 The MVC and WebForms web apps allow either to connect to the real database to get/update the product catalog or to use mock-data if, due to any reason, the database is still not available and you need to test/demo the app. 
 
-For each application, the option to select one or the other mode can be configured in the docker-compose.override.yml file when using Windows Containers or at the `Web.config` file when you still are NOT using Containers (original versions).
+For each application, the option to select one or the other mode can be configured in the docker-compose.override.yml file when using containers or in the `appsettings.json` file when running the apps directly (outside containers).
 
 

@@ -3,7 +3,7 @@ version: '3.4'
 services:
   eshop.modernized.mvc:
     environment:
-      - CatalogDBContext=Server=sql.data;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word
+      - CatalogDBContext=Server=sql.data;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word;TrustServerCertificate=True
       - UseMockData=False
       - UseCustomizationData=False
       - UseAzureStorage=False
@@ -14,11 +14,11 @@ services:
       - AzureActiveDirectoryTenant=${AZURE_ACTIVE_DIRECTORY_TENANT}
       - PostLogoutRedirectUri=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP:-10.0.75.1}:5115/
     ports:
-      - "5115:80"
+      - "5115:8080"
 
   eshop.modernized.webforms:
     environment:
-      - CatalogDBContext=Server=sql.data;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word
+      - CatalogDBContext=Server=sql.data;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word;TrustServerCertificate=True
       - UseMockData=False
       - UseCustomizationData=False
       - UseAzureStorage=False
@@ -33,9 +33,9 @@ services:
 
   eshopwcfservice:
     environment:
-      - CatalogDBContext=Server=sql.data;Database=eShopDatabase;User Id=sa;Password=Pass@word
+      - CatalogDBContext=Server=sql.data;Database=eShopDatabase;User Id=sa;Password=Pass@word;TrustServerCertificate=True
     ports:   
-     - "5113:80"       
+     - "5113:8080"       
   sql.data:
     environment:
       - SA_PASSWORD=Pass@word
@@ -43,11 +43,6 @@ services:
     ports:
       - "5433:1433"
     healthcheck:
-      test: [ "CMD", "sqlcmd", "-U", "sa", "-P", "Pass@word", "-Q", "select 1" ]
+      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-U", "sa", "-P", "Pass@word", "-Q", "select 1" ]
       interval: 1s
       retries: 20
-
-networks:
-  default:
-    external:
-      name: nat

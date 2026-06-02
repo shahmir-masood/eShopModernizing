@@ -18,13 +18,13 @@ spec:
       - name: eshop-modernized-wcf
         image: eshop/wcfservice
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         imagePullPolicy: Always
         env:
         - name: ConnectionString
           value: "Server=sql-data-for-wcf;Database=eShopDatabase;User Id=sa;Password=Pass@word"
       nodeSelector:
-       beta.kubernetes.io/os: windows
+       beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -35,7 +35,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 80
-    targetPort: 80
+  - port: 8080
+    targetPort: 8080
   selector:
     app: eshop-modernized-wcf

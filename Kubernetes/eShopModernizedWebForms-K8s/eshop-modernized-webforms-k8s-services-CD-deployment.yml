@@ -42,7 +42,7 @@ spec:
         - name: PostLogoutRedirectUri
           value: "#{your_aad_logout_refirect_uri}#"
       nodeSelector:
-       beta.kubernetes.io/os: windows
+       beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
