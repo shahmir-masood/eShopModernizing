@@ -4,6 +4,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace eShopModernizedMVC.Models
 {
+    [DbConfigurationType(typeof(CatalogDBConfiguration))]
     public class CatalogDBContext : DbContext
     {
         public CatalogDBContext(ISqlConnectionFactory provider)
