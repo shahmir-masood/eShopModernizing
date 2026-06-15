@@ -13,7 +13,7 @@ namespace eShopLegacyWebForms.Models
         private int remainningLoIds = 0;
         private object sequenceLock = new object();
 
-        public int GetNextSequenceValue(CatalogDBContext db)
+        public virtual int GetNextSequenceValue(CatalogDBContext db)
         {
             lock (sequenceLock)
             {
