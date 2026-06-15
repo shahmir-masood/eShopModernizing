@@ -11,11 +11,11 @@ namespace eShopLegacyWebForms.Models
         {
         }
 
-        public DbSet<CatalogItem> CatalogItems { get; set; }
+        public virtual DbSet<CatalogItem> CatalogItems { get; set; }
 
-        public DbSet<CatalogBrand> CatalogBrands { get; set; }
+        public virtual DbSet<CatalogBrand> CatalogBrands { get; set; }
 
-        public DbSet<CatalogType> CatalogTypes { get; set; }
+        public virtual DbSet<CatalogType> CatalogTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder builder)
         {
